@@ -4,7 +4,7 @@ const DefaultHeader = () => {
   return (
     <header>
       <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <div className="container-fluid">
+        <div className="container">
           <Link className="navbar-brand" to="/">
             Магазинчик
           </Link>

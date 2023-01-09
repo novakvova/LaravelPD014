@@ -16,7 +16,8 @@ class ProductController extends Controller
     public function index()
     {
         $prodcuts = Product::all();
-        return response()->json($prodcuts,  200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+        return response()->json($prodcuts,  200,
+            ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
             JSON_UNESCAPED_UNICODE);
     }
 
@@ -68,6 +69,17 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+        if (is_null($product)) {
+            return $this->sendError('Product not found.');
+        }
+        $product->delete();
+        return response()->json([
+            "success" => true,
+            "message" => "Product deleted successfully.",
+            "data" => $product
+        ],  200,
+            ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+            JSON_UNESCAPED_UNICODE);
     }
 }

@@ -1,14 +1,14 @@
-import { ProductState, ProductActionTypes } from './types';
+import { ProductState, ProductActionTypes, ProductActions } from './types';
 
 const initialState : ProductState = {
     list:[]
 };
-export const productReducer = (state=initialState, action: any) : ProductState => {
+export const productReducer = (state=initialState, action: ProductActions) : ProductState => {
     switch(action.type) {
         case ProductActionTypes.PRODUCT_LIST: {
             return {
                 ...state,
-                list: [...action.payload]
+                ...action.payload
             }
         }
         default:

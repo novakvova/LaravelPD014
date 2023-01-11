@@ -1,7 +1,10 @@
 import { ProductState, ProductActionTypes, ProductActions } from './types';
 
-const initialState : ProductState = {
-    list:[]
+const initialState: ProductState = {
+  list: [],
+  count_pages: 0,
+  current_page: 0,
+  total: 0,
 };
 export const productReducer = (state=initialState, action: ProductActions) : ProductState => {
     switch(action.type) {

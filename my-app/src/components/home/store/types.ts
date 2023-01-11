@@ -10,12 +10,16 @@ export interface IProductResponse {
     total: number,
     last_page: number
 }
+export interface ISearchProduct {
+    name?: string,
+    page?: number|string|null
+}
 
 export interface ProductState {
     list: Array<IProductItem>,
-    current_page?: number,
-    total?: number,
-    count_pages?: number
+    current_page: number,
+    total: number,
+    count_pages: number
 }
 
 export enum ProductActionTypes {

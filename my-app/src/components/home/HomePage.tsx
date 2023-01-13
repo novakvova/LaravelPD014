@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { useFormik } from "formik";
 import qs from "qs";
 import QueryString from "qs";
 import { useEffect, useState } from "react";
@@ -14,11 +15,11 @@ const HomePage = () => {
   );
   const { GetProductList } = useActions();
 
-  const [searchParams, setSearchParams] =  useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [search, setSearch] = useState<ISearchProduct>({
-    name: searchParams.get("name")|| "",
-    page: searchParams.get("page")|| 1
+    name: searchParams.get("name") || "",
+    page: searchParams.get("page") || 1,
   });
 
   function filterNonNull(obj: ISearchProduct) {
@@ -27,8 +28,19 @@ const HomePage = () => {
 
   useEffect(() => {
     console.log("search", search);
-    GetProductList();
+    GetProductList(search);
   }, [search]);
+
+  const onSubmit = (values: ISearchProduct) => {
+    console.log("Search Data", values);
+    setSearchParams(qs.stringify(filterNonNull(values)));
+    setSearch(values);
+  };
+
+  const formik = useFormik({
+    initialValues: search,
+    onSubmit,
+  });
 
   const data = list.map((product) => (
     <tr key={product.id}>
@@ -57,10 +69,36 @@ const HomePage = () => {
     </li>
   ));
 
-
   return (
     <>
       <h1 className="text-center">Головна сторінка</h1>
+      
+
+      <form
+        onSubmit={formik.handleSubmit}
+      >
+        <div className="mb-3 p-3 w-25">
+          <label htmlFor="name" className="form-label">
+            Назва
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            onChange={formik.handleChange}
+            className="form-control"
+            placeholder="пошук по імені"
+          />
+        </div>
+
+        <button type="submit" className="btn mb-3 btn-secondary">
+          <span>
+            <i className="fa fa-search"></i>
+          </span>
+          <span>Пошук</span>
+        </button>
+      </form>
+
       <h4>Усіх продуктів {total}</h4>
       <table className="table">
         <thead>
@@ -74,9 +112,7 @@ const HomePage = () => {
       </table>
 
       <nav>
-        <ul className="pagination">
-          {pagination}
-        </ul>
+        <ul className="pagination">{pagination}</ul>
       </nav>
     </>
   );

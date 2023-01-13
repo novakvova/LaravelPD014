@@ -1,12 +1,14 @@
 import { Dispatch } from "react";
 import http from "../../../http_common";
-import { IProductResponse, ProductActions, ProductActionTypes } from "./types";
+import { IProductResponse, ISearchProduct, ProductActions, ProductActionTypes } from "./types";
 
 
 export const GetProductList =
-  () => async (dispatch: Dispatch<ProductActions>) => {
+  (search : ISearchProduct) => async (dispatch: Dispatch<ProductActions>) => {
     try {
-      const resp = await http.get<IProductResponse>("/api/products");
+      const resp = await http.get<IProductResponse>("/api/products", {
+        params: search
+      });
 
       console.log("resp", resp);
       const { data } = resp;

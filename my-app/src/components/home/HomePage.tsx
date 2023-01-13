@@ -33,8 +33,9 @@ const HomePage = () => {
 
   const onSubmit = (values: ISearchProduct) => {
     console.log("Search Data", values);
-    setSearchParams(qs.stringify(filterNonNull(values)));
-    setSearch(values);
+    const finder = {...values, page: 1};
+    setSearchParams(qs.stringify(filterNonNull(finder)));
+    setSearch(finder);
   };
 
   const formik = useFormik({
